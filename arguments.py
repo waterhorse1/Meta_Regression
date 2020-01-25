@@ -30,10 +30,10 @@ def parse_args():
     parser.add_argument('--first_order', action='store_true', default=False, help='run first-order version')
 
     parser.add_argument('--maml', action='store_true', default=False, help='run MAML')
-    parser.add_argument('--cavia_all', action='store_true', default=False, help='run MAML')
+    parser.add_argument('--cavia_ori', action='store_true', default=False, help='run MAML')
     parser.add_argument('--cavia_choose', action='store_true', default=False, help='run MAML')
     parser.add_argument('--cavia_recon', action='store_true', default=False, help='run MAML')
-    parser.add_argument('--ella', action='store_true', default=True, help='run MAML')
+    parser.add_argument('--ella', action='store_true', default=False, help='run MAML')
     parser.add_argument('--seed', type=int, default=42)
 
     # commands specific to the CelebA image completion task

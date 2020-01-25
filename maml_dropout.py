@@ -13,10 +13,10 @@ import torch.optim as optim
 
 import utils
 import tasks_sine, tasks_celebA
-from data.task_multi import multi
 from logger import Logger
 from maml_model import MamlModel
 
+from data.task_multi import multi
 
 def run(args, log_interval=5000, rerun=False):
     assert args.maml
@@ -46,12 +46,11 @@ def run(args, log_interval=5000, rerun=False):
         task_family_train = tasks_celebA.CelebADataset('train', args.device)
         task_family_valid = tasks_celebA.CelebADataset('valid', args.device)
         task_family_test = tasks_celebA.CelebADataset('test', args.device)
-    elif args.task == 'multi':
+    else:
         task_family_train = multi()
         task_family_valid = multi()
         task_family_test = multi()
-    else:
-        raise NotImplementedError
+        #raise NotImplementedError
 
     # initialise network
     model_inner = MamlModel(task_family_train.num_inputs,
@@ -111,6 +110,9 @@ def run(args, log_interval=5000, rerun=False):
                 grads = torch.autograd.grad(loss_task, params, create_graph=True, retain_graph=True)
 
                 # make an update on the inner model using the current model (to build up computation graph)
+                model_inner.biases[0] = model_inner.biases[0] - args.lr_inner * grads[len(model_inner.weights)].detach()
+                #model_inner.weights[1] = model_inner.weights[1] - args.lr_inner * grads[1].detach()
+                '''
                 for i in range(len(model_inner.weights)):
                     if not args.first_order:
                         model_inner.weights[i] = model_inner.weights[i] - args.lr_inner * grads[i]
@@ -125,7 +127,7 @@ def run(args, log_interval=5000, rerun=False):
                     model_inner.task_context = model_inner.task_context - args.lr_inner * grads[i + j + 2]
                 else:
                     model_inner.task_context = model_inner.task_context - args.lr_inner * grads[i + j + 2].detach()
-
+                '''
             # ------------ compute meta-gradient on test loss of current task ------------
 
             # get test data
@@ -249,13 +251,15 @@ def eval(args, model, task_family, num_updates, n_tasks=100, return_gradnorm=Fal
             grads = torch.autograd.grad(task_loss, params)
 
             gradnorms.append(np.mean(np.array([g.norm().item() for g in grads])))
-
+            model.biases[0] = model.biasesq[0] - args.lr_inner * grads[len(model.weights)].detach()
+            #model.weights[1] = model.weights[1] - args.lr_inner * grads[1].detach()
+            '''
             for i in range(len(model.weights)):
                 model.weights[i] = model.weights[i] - args.lr_inner * grads[i].detach()
             for j in range(len(model.biases)):
                 model.biases[j] = model.biases[j] - args.lr_inner * grads[i + j + 1].detach()
             model.task_context = model.task_context - args.lr_inner * grads[i + j + 2].detach()
-
+            '''
         # ------------ logging ------------
 
         # compute true loss on entire input range

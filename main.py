@@ -27,12 +27,12 @@ if __name__ == '__main__':
     else:
         if args.maml:
             logger = maml.run(args, log_interval=100, rerun=True)
-        elif args.cavia_all:
-            logger = cavia_ori.run(args, log_interval=500, rerun=True)
+        elif args.cavia_ori:
+            logger = cavia_ori.run(args, log_interval=100, rerun=True)
         elif args.cavia_recon:
             logger = cavia_rnn.run(args, log_interval=100, rerun=True)
         else:
-            logger = cavia.run(args, log_interval=500, rerun=True)
+            logger = cavia.run(args, log_interval=100, rerun=True)
         #logger = cavia.run(args, log_interval=100, rerun=True)
         #logger = cavia_backup.run(args, log_interval=100, rerun=True)
     

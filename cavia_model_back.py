@@ -5,7 +5,7 @@ from torch import nn
 class place(nn.Module):
     def __init__(self):
         super(place, self).__init__()
-        self.l1 = nn.Linear(4, 50)
+        self.l1 = nn.Linear(10, 50)
         #self.l2 = nn.Linear(30, 40)
         self.l3 = nn.Linear(50, 30)
     def forward(self, x):
@@ -18,16 +18,19 @@ class pool_encoder(nn.Module):
     def __init__(self):
         super(pool_encoder, self).__init__()
         self.l1 = nn.Linear(2, 50)
-        self.l2 = nn.Linear(50, 15)
-        self.l3 = nn.Linear(2, 10)
+        self.l2 = nn.Linear(50, 10)
+        #self.l3 = nn.Linear(2, 10)
     def forward(self, x, return_embed = False):
         x1 = F.relu(self.l1(x))
         x2 = self.l2(x1)
+        '''
         if return_embed:
             embed = self.l3(x)
             return x2, embed
         else:
             return x2
+        '''
+        return x2
     
 class pool_decoder(nn.Module):
     def __init__(self):
