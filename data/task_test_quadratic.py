@@ -11,9 +11,9 @@ class quadratic:
         self.num_inputs = 1
         self.num_outputs = 1
 
-        self.a = [-0.19, 0.2]
-        self.b = [1.9, 2]
-        self.c = [2.9, 3]
+        self.a = [-0.2, 0.2]
+        self.b = [-2, 2]
+        self.c = [-3, 3]
 
         self.input_range = [-5, 5]
 

@@ -19,7 +19,7 @@ class multi:
         self.num_inputs = 1
         self.num_outputs = 1
         self.input_range = [-5, 5]
-        self.task = [sine(),quadratic()]#sine(), cubic()]#】,quadratic()]
+        self.task = [sine(),quadratic(),linear(),cubic()]#sine(), cubic()]#】,quadratic()]
         self.task_num = len(self.task)
 
     def get_input_range(self, size=100):

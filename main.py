@@ -7,6 +7,7 @@ import cavia_ori
 import cavia_recon
 import cavia_rnn
 import maml
+import maml_hsml
 
 
 if __name__ == '__main__':
@@ -26,7 +27,7 @@ if __name__ == '__main__':
             logger = cavia.test(args)
     else:
         if args.maml:
-            logger = maml.run(args, log_interval=100, rerun=True)
+            logger = maml_hsml.run(args, log_interval=100, rerun=True)
         elif args.cavia_ori:
             logger = cavia_ori.run(args, log_interval=100, rerun=True)
         elif args.cavia_recon:

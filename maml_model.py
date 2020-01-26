@@ -14,7 +14,8 @@ class MamlModel(nn.Module):
                  n_outputs,
                  n_weights,
                  num_context_params,
-                 device
+                 device,
+                 gate_shape=20
                  ):
         """
         :param n_inputs:            the number of inputs to the network
@@ -45,15 +46,27 @@ class MamlModel(nn.Module):
             b.requires_grad = True
             self.biases.append(b)
             prev_n_weight = self.nodes_per_layer[i]
-
+        
         self._reset_parameters()
-
+        
+        self.linear = nn.ModuleList([])
+        input_shape = gate_shape
+        for i in range(len(self.nodes_per_layer)):
+            self.linear.append(nn.Linear(input_shape,self.weights[i].view(-1).shape[0]))
+            self.linear.append(nn.Linear(input_shape,self.biases[i].view(-1).shape[0]))
+            
     def _reset_parameters(self):
         for i in range(len(self.nodes_per_layer)):
             stdv = 1. / math.sqrt(self.nodes_per_layer[i])
             self.weights[i].data.uniform_(-stdv, stdv)
             self.biases[i].data.uniform_(-stdv, stdv)
-
+            
+    def gate(self, gate_parameters):
+        for i in range(len(self.nodes_per_layer)):
+            shape = self.weights[i].size()
+            self.weights[i] = (self.weights[i].view(-1) * torch.sigmoid(self.linear[2*i](gate_parameters))).reshape(shape)
+            self.biases[i] = self.biases[i] * torch.sigmoid(self.linear[2*i+1](gate_parameters))
+            
     def forward(self, x):
 
         if len(self.task_context) != 0:

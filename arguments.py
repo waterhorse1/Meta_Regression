@@ -15,7 +15,7 @@ def parse_args():
 
     parser.add_argument('--k_meta_train', type=int, default=5, help='data points in task training set (during meta training, inner loop)')
     parser.add_argument('--k_meta_test', type=int, default=10, help='data points in task test set (during meta training, outer loop)')
-    parser.add_argument('--k_shot_eval', type=int, default=5, help='data points in task training set (during evaluation)')
+    parser.add_argument('--k_shot_eval', type=int, default=10, help='data points in task training set (during evaluation)')
 
     parser.add_argument('--lr_inner', type=float, default=0.001, help='inner-loop learning rate (task-specific)')
     parser.add_argument('--lr_s', type=float, default=0.01, help='inner-loop learning rate (task-specific)')

@@ -11,12 +11,12 @@ class sine:
         self.num_inputs = 1
         self.num_outputs = 1
 
-        #self.amplitude_range = [0.1, 5.0]
-        #self.phase_range = [0, np.pi]
-        #self.w_range = [0.8, 1.2]
-        self.amplitude_range = [1, 1.1]
-        self.phase_range = [0, 0.1]
-        self.w_range = [1,1.1]
+        self.amplitude_range = [0.1, 5.0]
+        self.phase_range = [0, np.pi]
+        self.w_range = [0.8, 1.2]
+        #self.amplitude_range = [1, 1.1]
+        #self.phase_range = [0, 0.1]
+        #self.w_range = [1,1.1]
 
         self.input_range = [-5, 5]
 
